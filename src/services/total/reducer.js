@@ -5,8 +5,8 @@ const initialState = {
     productQuantity: 0,
     installments: 0,
     totalPrice: 0,
-    currencyId: 'INP',
-    currencyFormat: 'INR',
+    currencyId: 'USD',
+    currencyFormat: '$',
   },
 };
 

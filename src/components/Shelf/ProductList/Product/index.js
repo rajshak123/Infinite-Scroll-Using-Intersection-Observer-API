@@ -29,7 +29,7 @@ const Product = ({ product, addProduct }) => {
       <p className="shelf-item__title">{product.productName}</p>
       <div className="shelf-item__price">
         <div className="val">
-          <small>{product.currencyFormat}</small>
+          <small>INR</small>
           <b>{formattedPrice.substr(0, formattedPrice.length - 3)}</b>
           <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>
         </div>

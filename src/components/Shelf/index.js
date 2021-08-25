@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -5,9 +7,8 @@ import { connect } from 'react-redux';
 import { fetchProducts } from '../../services/shelf/actions';
 
 import Spinner from '../Spinner';
-import ProductNumContainer from './ProductNumContainer';
+import Sort from './Sort';
 import ProductList from './ProductList';
-// import ScrollList from '../../scroll/List';
 
 import './style.scss';
 
@@ -40,9 +41,18 @@ class ProductContainer extends Component {
     sort = this.props.sort,
   ) => {
     this.setState({ isLoading: true });
-    this.props.fetchProducts(filters, sort, () => {
-      this.setState({ isLoading: false });
-    });
+    this.props.fetchProducts(
+      filters,
+      sort,
+      () => {
+        this.setState({ isLoading: false });
+      },
+      this.props.products,
+    );
+  };
+
+  openFloatCart = () => {
+    this.props.history.push('/checkout');
   };
 
   render() {
@@ -53,9 +63,15 @@ class ProductContainer extends Component {
       <React.Fragment>
         {isLoading && <Spinner />}
         <div className="shelf-container">
-          <ProductNumContainer productsLength={products.length} />
+          <div className="shelf-container-header">
+            <Sort />
+            <span
+              onClick={() => this.openFloatCart()}
+              className="bag bag--float-cart-closed"
+            />
+          </div>
 
-          <ProductList products={products} />
+          {!isLoading && products.length && <ProductList products={products} />}
         </div>
       </React.Fragment>
     );
@@ -66,6 +82,7 @@ ProductContainer.propTypes = {
   products: PropTypes.array.isRequired,
   filters: PropTypes.array,
   sort: PropTypes.string,
+  history: PropTypes.object,
 };
 const mapStateToProps = state => ({
   products: state.shelf.products,

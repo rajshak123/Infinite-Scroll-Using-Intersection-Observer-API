@@ -1,12 +1,6 @@
 .float-cart {
-  position: fixed;
-  top: 0;
-  right: -450px;
-  width: 450px;
-  height: 100%;
   background-color: #1b1a20;
   box-sizing: border-box;
-
   transition: right 0.2s;
 
   &--open {
@@ -37,7 +31,7 @@
     display: inline-block;
     vertical-align: middle;
     margin-right: 15px;
-    background-image: url('../../static/bag-icon.png');
+    background-image: url('../../static/pngtree-back-vector-icon-png-image_3791389.jpg');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -102,7 +96,7 @@
       position: relative;
       box-sizing: border-box;
       padding: 5%;
-      box-shadow: 1px 3px 2px #d8d8d8;
+
       transition: background-color 0.2s, opacity 0.2s;
 
       &::before {
@@ -277,13 +271,7 @@
     background-color: #0c0b10;
   }
 }
-/* MAC scrollbar para desktop*/
-@media screen and (min-width: 320px) {
-  .shelf-item__price {
-    margin-top: 35px;
-  }
 
-}
 .float-cart__content {
   height: 100%;
   overflow-y: scroll;

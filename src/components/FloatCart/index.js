@@ -18,12 +18,26 @@ import { formatPrice } from '../../services/util';
 import './style.scss';
 
 class FloatCart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-  }
+  static propTypes = {
+    // loadCart: PropTypes.func.isRequired,
+    updateCart: PropTypes.func.isRequired,
+    cartProducts: PropTypes.array.isRequired,
+    newProduct: PropTypes.object,
+    removeProduct: PropTypes.func,
+    productToRemove: PropTypes.object,
+    changeProductQuantity: PropTypes.func,
+    productToChange: PropTypes.object,
+    totalPrice: PropTypes.number,
+    productQuantity: PropTypes.number,
+    currencyFormat: PropTypes.number,
+    currencyId: PropTypes.string,
+    cartTotal: PropTypes.object,
+    history: PropTypes.object,
+  };
+
+  state = {
+    isOpen: false,
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.newProduct !== this.props.newProduct) {
@@ -81,13 +95,17 @@ class FloatCart extends Component {
       totalPrice,
       productQuantity,
       currencyFormat,
+      currencyId,
     } = this.props.cartTotal;
 
     if (!productQuantity) {
       alert('Add some product in the cart!');
     } else {
       alert(
-        `Checkout - Subtotal: ${currencyFormat} ${formatPrice(totalPrice)}`,
+        `Checkout - Subtotal: ${currencyFormat} ${formatPrice(
+          totalPrice,
+          currencyId,
+        )}`,
       );
     }
   };
@@ -103,6 +121,10 @@ class FloatCart extends Component {
     updateCart(cartProducts);
   };
 
+  navigateToMain = () => {
+    this.props.history.push('/');
+  };
+
   render() {
     const {
       cartTotal,
@@ -116,7 +138,7 @@ class FloatCart extends Component {
         product={p}
         removeProduct={removeProduct}
         changeProductQuantity={changeProductQuantity}
-        key={p.id}
+        key={p.productId}
       />
     ));
 
@@ -128,29 +150,9 @@ class FloatCart extends Component {
 
     return (
       <div className={classes.join(' ')}>
-        {/* If cart open, show close (x) button */}
-        {this.state.isOpen && (
-          <div
-            onClick={() => this.closeFloatCart()}
-            className="float-cart__close-btn"
-          >
-            X
-          </div>
-        )}
-
-        {/* If cart is closed, show bag with quantity of product and open cart action */}
-        {!this.state.isOpen && (
-          <span
-            onClick={() => this.openFloatCart()}
-            className="bag bag--float-cart-closed"
-          >
-            <span className="bag__quantity">{cartTotal.productQuantity}</span>
-          </span>
-        )}
-
         <div className="float-cart__content">
           <div className="float-cart__header">
-            <span className="bag">
+            <span className="bag" onClick={this.navigateToMain}>
               <span className="bag__quantity">{cartTotal.productQuantity}</span>
             </span>
             <span className="header-title">Cart</span>
@@ -170,19 +172,11 @@ class FloatCart extends Component {
             <div className="sub">SUBTOTAL</div>
             <div className="sub-price">
               <p className="sub-price__val">
-                {`INR ${formatPrice(cartTotal.totalPrice)}`}
+                {`INR ${formatPrice(
+                  cartTotal.totalPrice,
+                  cartTotal.currencyId,
+                )}`}
               </p>
-              <small className="sub-price__installment">
-                {!!cartTotal.installments && (
-                  <span>
-                    {`OR UP TO ${cartTotal.installments} x ${
-                      cartTotal.currencyFormat
-                    } ${formatPrice(
-                      cartTotal.totalPrice / cartTotal.installments,
-                    )}`}
-                  </span>
-                )}
-              </small>
             </div>
             <div onClick={() => this.proceedToCheckout()} className="buy-btn">
               Checkout
@@ -193,16 +187,7 @@ class FloatCart extends Component {
     );
   }
 }
-FloatCart.propTypes = {
-  updateCart: PropTypes.func.isRequired,
-  cartProducts: PropTypes.array.isRequired,
-  newProduct: PropTypes.object,
-  removeProduct: PropTypes.func,
-  productToRemove: PropTypes.object,
-  changeProductQuantity: PropTypes.func,
-  productToChange: PropTypes.object,
-  cartTotal: PropTypes.object,
-};
+
 const mapStateToProps = state => ({
   cartProducts: state.cart.products,
   newProduct: state.cart.productToAdd,

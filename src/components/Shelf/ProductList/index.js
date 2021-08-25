@@ -18,6 +18,7 @@ const ProductList = ({ products }) => {
       itemCount={products.length}
       itemsRenderer={itemsRenderer}
       renderItem={itemRenderer}
+      pageSize={3}
     />
   );
 };

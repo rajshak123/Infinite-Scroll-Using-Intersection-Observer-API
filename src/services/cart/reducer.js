@@ -16,11 +16,12 @@ export default function(state = initialState, action) {
         ...state,
         products: action.payload,
       };
-    case ADD_PRODUCT:
+    case ADD_PRODUCT: {
       return {
         ...state,
         productToAdd: Object.assign({}, action.payload),
       };
+    }
     case REMOVE_PRODUCT:
       return {
         ...state,

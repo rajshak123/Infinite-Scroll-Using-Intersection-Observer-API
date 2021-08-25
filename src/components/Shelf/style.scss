@@ -3,11 +3,17 @@
   flex-wrap: wrap;
   width: 100%;
   min-height: 600px;
-
+  .list{
+    padding: 10px;
+  }
   &-header {
+    height: 60px;
+    background-color: #9d9595;
     width: 100%;
     margin-bottom: 10px;
-
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     .products-found {
       float: left;
       margin: 0;
@@ -16,7 +22,8 @@
 
     .sort {
       float: right;
-
+    width: 100%;
+    padding-top: 10px;
       select {
         background-color: #fff;
         outline: none;
@@ -35,7 +42,6 @@
   }
 
   .shelf-item {
-    width: 25%;
     position: relative;
     text-align: center;
     box-sizing: border-box;
@@ -112,4 +118,47 @@
       transition: background-color 0.2s;
     }
   }
+  .bag {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    background-image: url('../../static/bag-icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    &--float-cart-closed {
+      position: absolute;
+      background-color: #000;
+      background-size: 50%;
+      height: 60px;
+      cursor: pointer;
+      right: -10px;
+
+      .bag__quantity {
+        bottom: 5px;
+        right: 10px;
+      }
+    }
+
+    &__quantity {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      color: #0c0b10;
+      font-weight: bold;
+      font-size: 0.7em;
+      text-align: center;
+      line-height: 18px;
+      border-radius: 50%;
+      background-color: #eabf00;
+      position: absolute;
+      bottom: -5px;
+      right: 0px;
+    }
+  }
+
 }

@@ -1,6 +1,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,12 @@ import Thumb from '../../Thumb';
 import { formatPrice } from '../../../services/util';
 
 class CartProduct extends Component {
+  static propTypes = {
+    product: PropTypes.object.isRequired,
+    removeProduct: PropTypes.func.isRequired,
+    changeProductQuantity: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -47,15 +54,13 @@ class CartProduct extends Component {
     if (this.state.isMouseOver) {
       classes.push('shelf-item--mouseover');
     }
-
+    console.log(product);
     return (
       <div className={classes.join(' ')}>
         <div
           className="shelf-item__del"
           onMouseOver={() => this.handleMouseOver()}
-          onFocus={() => this.handleMouseOver()}
           onMouseOut={() => this.handleMouseOut()}
-          onBlur={() => this.handleMouseOut()}
           onClick={() => removeProduct(product)}
         />
         <Thumb
@@ -67,7 +72,7 @@ class CartProduct extends Component {
           <p className="title">{product.title}</p>
         </div>
         <div className="shelf-item__price">
-          <p>{`₹ ${formatPrice(product.price)}`}</p>
+          <p>{`INR  ${formatPrice(product.price)}`}</p>
           <div>
             <button
               onClick={this.handleOnDecrease}
@@ -88,9 +93,5 @@ class CartProduct extends Component {
     );
   }
 }
-CartProduct.propTypes = {
-  product: PropTypes.object.isRequired,
-  removeProduct: PropTypes.func.isRequired,
-  changeProductQuantity: PropTypes.func.isRequired,
-};
+
 export default CartProduct;
