@@ -16,26 +16,8 @@ const compare = {
   },
 };
 
-export const fetchProducts = (
-  filters,
-  sortBy,
-  callback,
-  productsParam,
-) => dispatch => {
-  if (productsParam.length) {
-    let productsCopy = [];
-    if (sortBy) {
-      productsCopy = productsParam.sort(compare[sortBy]);
-    }
-    if (callback) {
-      callback();
-    }
-    return dispatch({
-      type: FETCH_PRODUCTS,
-      payload: productsCopy,
-    });
-  }
-  return axios
+export const fetchProducts = (filters, sortBy, callback) => dispatch =>
+  axios
     .get(productsAPI)
     .then(res => {
       let { products } = res.data;
@@ -62,4 +44,3 @@ export const fetchProducts = (
     .catch(err => {
       console.log('Could not fetch products. Try again later.', err);
     });
-};

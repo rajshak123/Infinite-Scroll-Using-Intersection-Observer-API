@@ -71,7 +71,7 @@ class ProductContainer extends Component {
             />
           </div>
 
-          {!isLoading && products.length && <ProductList products={products} />}
+          <ProductList products={products} />
         </div>
       </React.Fragment>
     );
